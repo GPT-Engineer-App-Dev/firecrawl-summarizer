@@ -39,8 +39,11 @@ const Index = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const crawledContent = data.content;
-        const simulatedSummary = "This is a summary of the content.";
+        const crawledContent = data.content || "";
+        const simulatedSummary = crawledContent
+          .split("\n")
+          .filter((line) => line.trim())
+          .join(" ");
         const simulatedQuality = "High";
 
         setSummary(simulatedSummary);
