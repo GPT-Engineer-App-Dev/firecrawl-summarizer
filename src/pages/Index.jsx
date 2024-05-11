@@ -27,7 +27,7 @@ const Index = () => {
 
     setIsLoading(true);
 
-    fetch("https://api.firecrawl.dev/v0/crawl", {
+    fetch("https://api.firecrawl.dev/v0/scrape", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,6 @@ const Index = () => {
       },
       body: JSON.stringify({
         url: url,
-        pageOptions: {},
       }),
     })
       .then((response) => response.json())
