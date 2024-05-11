@@ -27,27 +27,45 @@ const Index = () => {
 
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      // Simulated response from the crawl
-      const crawledContent = "Example content crawled from the website.";
+    fetch("https://api.firecrawl.dev/v0/crawl", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer fc-1a67435fe4b54212b98f775c0d8fbc21",
+      },
+      body: JSON.stringify({
+        url: url,
+        pageOptions: {},
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const crawledContent = data.content;
+        const simulatedSummary = "This is a summary of the content.";
+        const simulatedQuality = "High";
 
-      // Simulate calling GPT-3.5 to summarize and categorize the content
-      const simulatedSummary = "This is a summary of the content.";
-      const simulatedQuality = "High";
+        setSummary(simulatedSummary);
+        setQuality(simulatedQuality);
+        setIsLoading(false);
 
-      setSummary(simulatedSummary);
-      setQuality(simulatedQuality);
-      setIsLoading(false);
-
-      toast({
-        title: "Crawl Completed",
-        description: "The content has been crawled and analyzed successfully.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
+        toast({
+          title: "Crawl Completed",
+          description: "The content has been crawled and analyzed successfully.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        toast({
+          title: "Crawl Failed",
+          description: "Failed to crawl the website. Please try again.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       });
-    }, 2000);
   };
 
   return (
